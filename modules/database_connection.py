@@ -1,16 +1,20 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError
 import pandas as pd
-from decouple import config
+import os
+from dotenv import load_dotenv
 
-DB_NAME = config("DB_NAME")
-USER = config("USER")
-PASSWD = config("PASSWD")
-HOST = config("HOST")
-PORT = config("PORT")
+load_dotenv()
+
+DB_NAME = os.environ["DB_NAME"]
+USER = os.environ["USER"]
+PASSWD = os.environ["PASSWD"]
+HOST = os.environ["HOST"]
+PORT = os.environ["PORT"]
 
 
 def engine_db():
+
     engine = create_engine(f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}/{DB_NAME}')
     return engine
 

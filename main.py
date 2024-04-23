@@ -14,7 +14,7 @@ landing_path = "./data/landing/"
 file_calendar = landing_path + 'calendar.csv'
 df_calendar = pd.read_csv(file_calendar)
 
-db.criar_tabela_df('bronze','calendar',df_calendar, 'replace')
+'''db.criar_tabela_df('bronze','calendar',df_calendar, 'replace')
 
 
 
@@ -26,4 +26,4 @@ db.criar_tabela_df('bronze', 'reviews', df_reviews,'replace')
 
 file_listing = landing_path + 'listings.csv'
 df_listings = pd.read_csv(file_listing)
-db.criar_tabela_df('bronze', 'listings', df_listings,'replace')
+db.criar_tabela_df('bronze', 'listings', df_listings,'replace')'''
