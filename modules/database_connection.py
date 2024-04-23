@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, text as sql_text
 from sqlalchemy.exc import OperationalError
-from sqlalchemy.schema import CreateSchema
 import pandas as pd
 import os
 
