@@ -1,14 +1,14 @@
-from sqlalchemy import create_engine, text as sql_text
+from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError
 import pandas as pd
-import os
+from decouple import config
 
+DB_NAME = config("DB_NAME")
+USER = config("USER")
+PASSWD = config("PASSWD")
+HOST = config("HOST")
+PORT = config("PORT")
 
-DB_NAME = os.environ.get("DB_NAME")
-USER = os.environ.get("USER")
-PASSWD = os.environ.get("PASSWD")
-HOST = os.environ.get("HOST")
-PORT = os.environ.get("PORT")
 
 def engine_db():
     engine = create_engine(f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}/{DB_NAME}')
@@ -21,64 +21,63 @@ def connnection_db():
 
 def criar_database():
     try:
-        engine = create_engine(f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}/postgres')
+        engine = create_engine(f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}')
 
-        # Verifica se o banco de dados "Datalake" já existe
-        database_exists = engine.execute(f"SELECT 1 FROM pg_database WHERE datname = lower('{DB_NAME}')").fetchone()
-        
-        if not database_exists:
+        with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as conn:
 
-            # o Postgres não aceita o comando CREATE DATABASE por transações e o sqlAlchemy sempre executa 
-            # as queries em transações. Então é preciso criar uma conexão com o gerenciador.
-            # Porem o connect está dentro de uma transação, então depois de fazer o engine connect
-            # faremos o 'commit' pra encerrar essa transação e depois fazer o execute com o Create Database
-            # e depois fechar a conexão
-            engine = create_engine(f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}/postgres')
-            conn = engine.connect()
-            conn.execute("commit")
-            conn.execute(f"CREATE DATABASE {DB_NAME}")
+            # Verifica se o banco de dados já existe
+            sql = f"SELECT 1 FROM pg_database WHERE datname = lower('{DB_NAME}')"
+            database_exists = conn.execute(text(sql)).fetchone()
 
-            conn.close()
-            print(f"Banco de dados {DB_NAME} criado com sucesso.")
-        else:
-            print(f"O banco de dados {DB_NAME} já existe.")
+            if not database_exists:
+                sql_create_db = f"CREATE DATABASE {DB_NAME}"
+                conn.execute(text(sql_create_db))
+                conn.commit()
+
+                conn.close()
+                print(f"Banco de dados {DB_NAME} criado com sucesso.")
+            else:
+                print(f"O banco de dados {DB_NAME} já existe.")
     except OperationalError as error:
         print("Erro de conexão:", error)
-    except Exception as e:
+    except Exception as error:
         print("Ocorreu um erro:", error)
 
 
 def criar_schemas():
     try:
         engine = engine_db()
-        conn = engine.connect()
-    
-        exists_bronze = conn.execute(sql_text("SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'bronze'")).fetchone()
-        if not exists_bronze:
-            conn.execute(sql_text("CREATE SCHEMA bronze"))
-   
-            print("Schema 'bronze' criado com sucesso.")
-        else:
-            print("O Schema 'bronze' ja existe.")
-        
-        exists_silver = conn.execute(sql_text("SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'silver'")).fetchone()
-        if not exists_silver:
-            conn.execute(sql_text("CREATE SCHEMA silver"))
+        with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as conn:
+            sql_exists_bronze = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'bronze'"
+            exists_bronze = conn.execute(text(sql_exists_bronze)).fetchone()
+            if not exists_bronze:
+                sql_create_bronze = "CREATE SCHEMA bronze"
+                conn.execute(text(sql_create_bronze))
+                #conn.commit()
+                print("Schema 'bronze' criado com sucesso.")
+            else:
+                print("O Schema 'bronze' ja existe.")
 
-            print("Schema 'silver' criado com sucesso.")
-        else:
-            print("O Schema 'silver' ja existe.")
-    
-        exists_gold = conn.execute(sql_text("SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'gold'")).fetchone()
-        if not exists_gold:
-            conn.execute(sql_text("CREATE SCHEMA gold"))
 
-            print("Schema 'gold' criado com sucesso.")
-        else:
-            print("O Schema 'gold' ja existe.")
+            sql_exists_silver = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'silver'"
+            exists_silver = conn.execute(text(sql_exists_silver)).fetchone()
+            if not exists_silver:
+                sql_create_silver = "CREATE SCHEMA silver"
+                conn.execute(text(sql_create_silver))
+                # conn.commit()
+                print("Schema 'silver' criado com sucesso.")
+            else:
+                print("O Schema 'silver' ja existe.")
 
-        # Fechar a conexão após a conclusão
-        conn.commit()    
+            sql_exists_gold = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'gold'"
+            exists_gold = conn.execute(text(sql_exists_gold)).fetchone()
+            if not exists_gold:
+                sql_create_gold = "CREATE SCHEMA gold"
+                conn.execute(text(sql_create_gold))
+                # conn.commit()
+                print("Schema 'gold' criado com sucesso.")
+            else:
+                print("O Schema 'gold' ja existe.")
 
     except OperationalError as error:
         print("Erro de conexão:", error)
