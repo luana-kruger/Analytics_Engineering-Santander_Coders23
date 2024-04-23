@@ -75,7 +75,7 @@ def criar_schemas():
 
     except OperationalError as error:
         print("Erro de conexão:", error)
-    except Exception as e:
+    except Exception as error:
         print("Ocorreu um erro:", error)
 
 def criar_tabela_df(schema:str, nome_tabela:str, df:pd.DataFrame, if_exists:str='append'):
