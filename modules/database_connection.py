@@ -78,7 +78,7 @@ def criar_schemas():
         else:
             print("O Schema 'gold' ja existe.")
 
-        # Fechar a conexão após a conclusão de todas as operações
+        # Fechar a conexão após a conclusão
         conn.commit()    
 
     except OperationalError as error:
