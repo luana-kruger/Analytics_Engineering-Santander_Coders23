@@ -1,5 +1,6 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text as sql_text
 from sqlalchemy.exc import OperationalError
+from sqlalchemy.schema import CreateSchema
 import pandas as pd
 import os
 
@@ -51,31 +52,38 @@ def criar_database():
 def criar_schemas():
     try:
         engine = engine_db()
-        
-        exists_bronze = engine.execute("SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'bronze'").fetchone()
+        conn = engine.connect()
+    
+        exists_bronze = conn.execute(sql_text("SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'bronze'")).fetchone()
         if not exists_bronze:
-            engine.execute("CREATE SCHEMA bronze")
+            conn.execute(sql_text("CREATE SCHEMA bronze"))
+   
             print("Schema 'bronze' criado com sucesso.")
         else:
             print("O Schema 'bronze' ja existe.")
         
-        exists_silver = engine.execute("SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'silver'").fetchone()
+        exists_silver = conn.execute(sql_text("SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'silver'")).fetchone()
         if not exists_silver:
-            engine.execute("CREATE SCHEMA silver")
+            conn.execute(sql_text("CREATE SCHEMA silver"))
+
             print("Schema 'silver' criado com sucesso.")
         else:
             print("O Schema 'silver' ja existe.")
     
-        exists_gold = engine.execute("SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'gold'").fetchone()
+        exists_gold = conn.execute(sql_text("SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'gold'")).fetchone()
         if not exists_gold:
-            engine.execute("CREATE SCHEMA gold")
+            conn.execute(sql_text("CREATE SCHEMA gold"))
+
             print("Schema 'gold' criado com sucesso.")
         else:
             print("O Schema 'gold' ja existe.")
 
+        # Fechar a conexão após a conclusão de todas as operações
+        conn.commit()    
+
     except OperationalError as error:
         print("Erro de conexão:", error)
-    except Exception as e:
+    except Exception as error:
         print("Ocorreu um erro:", error)
 
 def criar_tabela_df(schema:str, nome_tabela:str, df:pd.DataFrame, if_exists:str='append'):
