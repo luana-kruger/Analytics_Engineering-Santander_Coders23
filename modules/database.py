@@ -15,7 +15,7 @@ PORT = os.environ["PORT"]
 
 def engine_db():
 
-    engine = create_engine(f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}/{DB_NAME}')
+    engine = create_engine(f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}')
     return engine
 
 def connnection_db():
