@@ -1,10 +1,8 @@
-config.py
-dados/
-__pycache__/
 data/landing/
+data_profiling/
 
 # Environments
-#.env
+.env
 .venv
 env/
 venv/
@@ -14,6 +12,7 @@ venv.bak/
 
 # Data files
 data/
+dados/
 
 # IDEs Configuration
 .idea
