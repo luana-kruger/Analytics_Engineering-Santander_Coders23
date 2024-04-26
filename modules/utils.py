@@ -122,17 +122,14 @@ def check_missing(df):
     # res_missing = (res_missing/len(df))*100
     return res_missing[res_missing != 0]
 
-def verificar_datas(df):
+def check_date(df, col):
 
     ano_atual = pd.Timestamp.now().year
-
-    # # Converter a coluna 'date' para o tipo datetime
-    # df['date'] = pd.to_datetime(df['date'], errors='coerce')
-
+    
     # Verificar as condições
-    condicao_dia = (df['date'].dt.day >= 1) & (df['date'].dt.day <= 31) # dias num intervalo de 1 a 31
-    condicao_mes = (df['date'].dt.month >= 1) & (df['date'].dt.month <= 12) # meses num intervalo de 1 a 12
-    condicao_ano = (df['date'].dt.year >= 1900) & (df['date'].dt.year <= ano_atual) # dias num intervalo de 1900 ao ano corrente
+    condicao_dia = (df[col].dt.day >= 1) & (df[col].dt.day <= 31) # dias num intervalo de 1 a 31
+    condicao_mes = (df[col].dt.month >= 1) & (df[col].dt.month <= 12) # meses num intervalo de 1 a 12
+    condicao_ano = (df[col].dt.year >= 1900) & (df[col].dt.year <= ano_atual) # dias num intervalo de 1900 ao ano corrente
 
     # Aplicar as condições ao DataFrame
     df_filtrado = df[condicao_dia & condicao_mes & condicao_ano]

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 annotated-types==0.6.0
 asttokens==2.4.1
 attrs==23.2.0
@@ -77,3 +78,14 @@ wcwidth==0.2.13
 widgetsnbextension==4.0.10
 wordcloud==1.9.3
 ydata-profiling==4.7.0
+=======
+psycopg2
+sqlalchemy
+pandas
+ipython-sql
+datetime
+python-dotenv
+dbt-core
+dbt-postgres
+great_expectations
+>>>>>>> 5a3be149d8bdc8025fe3fdf244ba93e2b7ee3d06
