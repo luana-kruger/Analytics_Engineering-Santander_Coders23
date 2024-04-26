@@ -44,8 +44,10 @@ def criar_database():
                 print(f"O banco de dados {DB_NAME} já existe.")
     except OperationalError as error:
         print("Erro de conexão:", error)
+        raise error
     except Exception as error:
         print("Ocorreu um erro:", error)
+        raise error
 
 
 def criar_schemas():
@@ -85,8 +87,10 @@ def criar_schemas():
 
     except OperationalError as error:
         print("Erro de conexão:", error)
+        raise error
     except Exception as error:
         print("Ocorreu um erro:", error)
+        raise error
 
 def criar_tabela_df(schema:str, nome_tabela:str, df:pd.DataFrame, if_exists:str='append'):
     try:        
@@ -98,5 +102,5 @@ def criar_tabela_df(schema:str, nome_tabela:str, df:pd.DataFrame, if_exists:str=
         
         print(f"A tabela '{nome_tabela}' foi criada no schema '{schema}', e os dados foram inseridos.")
         
-    except Exception as error:         
-        print("Ocorreu um erro:", error)
+    except Exception as error:
+        raise error
