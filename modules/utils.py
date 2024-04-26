@@ -104,3 +104,12 @@ def remove_special_caracters(texto):
     texto_limpo = re.sub(padrao, '', texto)
     
     return texto_limpo
+
+def change_t_for_1(texto):
+    if pd.isnull(texto):  # Verifica se o valor é nulo
+        return "0"  # Retorna nulo se for o caso
+
+    # Substitui todas as ocorrências de 't' por '1' e qualquer outro valor por '0'
+    texto_substituido = ''.join(['1' if char.lower() == 't' else '0' for char in texto])
+    
+    return texto_substituido
