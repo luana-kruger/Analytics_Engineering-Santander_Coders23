@@ -4,3 +4,6 @@ pandas
 ipython-sql
 datetime
 python-dotenv
+dbt-core
+dbt-postgres
+great_expectations

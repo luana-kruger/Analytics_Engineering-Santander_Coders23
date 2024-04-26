@@ -1,0 +1,259 @@
++ Listing
+
+++ remover:
+"bedrooms": 100% missing
+"license": 100% missing
+"calendar_updated": 100% missing
+"description": 100% missing
+"bathrooms": 100% missing
+"neighbourhood_group_cleansed": 100% missing
+"amenities": 100% '[]'
+
+
+
+
+++ Tratamento:
+- "neighborhood_overview": 
+	* preencher missing com "nao informado" ou "no_info". 
+	* Remover os caracteres
+	
+- "neighbourhood": 
+	* preencher missing com "nao informado". 
+	
+- "host_name": 
+	* preencher missing com "nao informado". 
+	
+- "host_location": 
+	* preencher missing com "nao informado".
+	
+- "host_about": 
+	* preencher missing com "nao informado". 
+	* Remover os caracteres especiais, inclusive '\n', '\t'.
+	
+- "host_since": 
+	* preencher missing com "1990-01-01". 
+	* Converter pra date
+	
+- "host_response_time": 
+	* preencher missing com "nao informado".
+	
+- "host_response_rate": 
+	* preencher missing com "0%". 
+	* Remover o '%' e converter pra float.
+	
+- "host_acceptance_rate": 
+	* preencher missing com "0%" ou "0". 
+	* Remover o '%' e converter pra float.
+	
+- "host_is_superhost": 
+	* preencher missing com "f".
+	* Converter para int e t para 1 e f para 0.
+	
+- "host_thumbnail_url": 
+	* Remover coluna ou então preencher com "nao informado".
+	
+- "host_picture_url": 
+	* Remover coluna ou então preencher com "nao informado".
+	
+- "host_neighbourhood": 
+	* preencher missing com "nao informado".
+	* remover caracteres especiais.
+	
+- "host_listings_count": 
+	* preencher missing com "0.0". 
+	Converter pra float.
+	
+- "host_total_listings_count": 
+	* preencher missing com "0.0". 
+	* Converter pra float.
+	
+- "host_has_profile_pic": 
+	* Remover porque ja tem a coluna "host_picture_url", ou preencher missing, ou preencher com 'f'.
+	
+- "host_identity_verified": 
+	* preencher missing com "f".
+	* Converter para int e t para 1 e f para 0.
+	
+- "bathrooms_text": 
+	* aplicar lower() em todos.
+	* replace 'half-bath' parta 0.5 bath
+	* separar o numero do tipo criando duas colunas novas (bathroom_type, bathroom_quantity).
+	* Remover espaços em branco no inicio e fim
+	* Padronizar os textos do bathroom_type:
+		- baths => bath
+		- shared => shared bath
+		- private => private bath
+
+- "beds": 
+	* preencher missing com "0.0".
+	* Converter pra float.
+- "price": 
+	* preencher missing com "$0.0". 
+	* Replace o "$" por ""
+	* Remover o "," por ""
+	* Remover os espaçoes em branco.
+	* Converter pra float.
+	
+- "has_availability": 
+	* preencher missing com "f". 
+	* Converter para int e t para 1 e f para 0.
+	
+- "first_review": 
+	* preencher missing com "1990-01-01". 
+	* Converter pra date.
+	
+- "last_review": 
+	* preencher missing com "1990-01-01". 
+	* Converter pra date.
+	
+- "review_scores_rating": 
+	* preencher missing com "0.0". 
+	* Converter pra float.
+	
+- "review_scores_accuracy": 
+	* preencher missing com "0.0". 
+	* Converter pra float.
+	
+- "review_scores_cleanliness": 
+	* preencher missing com "0.0". 
+	* Converter pra float. 
+	
+- "review_scores_checkin": 
+	* preencher missing com "0.0". 
+	* Converter pra float. 
+	
+- "review_scores_communication": 
+	* preencher missing com "0.0". 
+	* Converter pra float. 
+	
+- "review_scores_location": 
+	* preencher missing com "0.0". 
+	* Converter pra float.
+	
+- "review_scores_value": 
+	* preencher missing com "0.0". 
+	* Converter pra float. 
+	
+- "reviews_per_month": 
+	* preencher missing com "0.0". 
+	* Converter pra float. 
+
+- "id":
+	* Não pode ser removido. é utilizado nas ligações com as outras tabelas
+	
+- "listing_url"
+	* Acho que pode ser removido.
+	
+- "scrape_id"
+	* Acho que pode ser removido.
+	
+- "last_scraped"
+	* converter para date/datetime
+- "source"
+	* Nada a fazer.
+- "name"
+	* remover, é um campo gerado a partir de outros campos.
+	
+- "picture_url":
+	* nada a fazer.
+- "host_id":
+	nada a fazer.
+- "host_url":
+	*	nada a fazer ou remover.
+- "host_verifications":
+	1ª Sugestão:
+		- Preencher missing com "[nao informado]"]
+		- Replace '[]' por '[nao informado]'
+	2ª Sugestão:
+		- Identificar os tipos de verificação e criar uma coluna bool para cada uma delas.
+		por exemplo: [email, phone]
+		Criar columa email: bool (t or f , 1 or 0)
+		Criar columa phone: bool (t or f , 1 or 0)
+		
+- "neighbourhood_cleansed":
+	* Remover espaços no inicio e fim.
+	* Remover caracteres especiais
+	
+- "latitude":
+	* Nada a fazer
+- "longitude":
+	* Nada a fazer
+- "property_type":
+	* Remover espaços no inicio e fim.
+	* Remover caracteres especiais
+	
+- "room_type":
+	* Remover espaços no inicio e fim.
+	* Remover caracteres especiais
+	
+- "accommodates":
+	* Nada a fazer.
+	
+- "price":
+	* Nada a fazer. Float
+	
+- "minimum_nights":
+	* Nada a fazer. Int
+	
+- "maximum_nights":
+	* Nada a fazer. Int
+	
+- "minimum_minimum_nights":
+	* Nada a fazer. Int
+	
+- "maximum_minimum_nights":
+	* Nada a fazer. Int
+	
+- "minimum_maximum_nights":
+	* Nada a fazer. Int
+	
+- "maximum_maximum_nights":
+	* Nada a fazer. Int
+	
+- "minimum_nights_avg_ntm":
+	* Nada a fazer. Float
+	
+- "maximum_nights_avg_ntm":
+	* Nada a fazer. Float
+	
+- "has_availability":
+	* preencher missing com "f".
+	* Converter para int e t para 1 e f para 0.
+- "availability_30":
+	* Nada a fazer. Int
+	
+- "availability_60":
+	* Nada a fazer. Int
+	
+- "availability_90":
+	* Nada a fazer. Int
+	
+- "availability_365":
+	* Nada a fazer. Int
+	
+- "calendar_last_scraped":
+	* converter para date/datetime
+	
+- "number_of_reviews":
+	* Nada a fazer. Int
+
+- "number_of_reviews_ltm":
+	* Nada a fazer. Int
+	
+- "number_of_reviews_l30d":
+	* Nada a fazer. Int
+	
+- "instant_bookable":
+	* Converter para int e t para 1 e f para 0.
+	
+- "calculated_host_listings_count":
+	* Nada a fazer. Int
+- "calculated_host_listings_count_entire_homes"
+	* Nada a fazer. Int
+	
+- "calculated_host_listings_count_private_rooms":
+	* Nada a fazer. Int
+- "calculated_host_listings_count_shared_rooms":
+	* Nada a fazer. Int
+
+
