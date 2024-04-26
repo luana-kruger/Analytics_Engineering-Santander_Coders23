@@ -13,35 +13,40 @@ HOST = os.environ["HOST"]
 PORT = os.environ["PORT"]
 
 
-def engine_db():
-
-    engine = create_engine(f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}')
-    return engine
+def engine_db(database:str=None):
+    '''
+    '''
+    connection_string = f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}'
+    
+    if database is not None:
+        connection_string+=f'/{database}'
+    
+    return create_engine(connection_string)
 
 def connnection_db():
     engine = engine_db()
     return engine.connect()
     
 
-def criar_database():
+def criar_database(database:str):
     try:
         engine = create_engine(f'postgresql://{USER}:{PASSWD}@{HOST}:{PORT}')
 
         with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as conn:
 
             # Verifica se o banco de dados já existe
-            sql = f"SELECT 1 FROM pg_database WHERE datname = lower('{DB_NAME}')"
+            sql = f"SELECT 1 FROM pg_database WHERE datname = lower('{database}')"
             database_exists = conn.execute(text(sql)).fetchone()
 
             if not database_exists:
-                sql_create_db = f"CREATE DATABASE {DB_NAME}"
+                sql_create_db = f"CREATE DATABASE {database}"
                 conn.execute(text(sql_create_db))
                 conn.commit()
 
                 conn.close()
-                print(f"Banco de dados {DB_NAME} criado com sucesso.")
+                print(f"Banco de dados {database} criado com sucesso.")
             else:
-                print(f"O banco de dados {DB_NAME} já existe.")
+                print(f"O banco de dados {database} já existe.")
     except OperationalError as error:
         print("Erro de conexão:", error)
         raise error
@@ -50,9 +55,9 @@ def criar_database():
         raise error
 
 
-def criar_schemas():
+def criar_schemas(database:str):
     try:
-        engine = engine_db()
+        engine = engine_db(database=database)
         with engine.connect().execution_options(isolation_level="AUTOCOMMIT") as conn:
             sql_exists_bronze = "SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'bronze'"
             exists_bronze = conn.execute(text(sql_exists_bronze)).fetchone()
@@ -92,9 +97,9 @@ def criar_schemas():
         print("Ocorreu um erro:", error)
         raise error
 
-def criar_tabela_df(schema:str, nome_tabela:str, df:pd.DataFrame, if_exists:str='append'):
+def criar_tabela_df(database:str,schema:str, nome_tabela:str, df:pd.DataFrame, if_exists:str='append'):
     try:        
-        engine = engine_db()
+        engine = engine_db(database=database)
         
         print(f"Criando a tabela '{nome_tabela}' no schema '{schema}'....")
         

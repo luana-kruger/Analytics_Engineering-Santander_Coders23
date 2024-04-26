@@ -5,7 +5,7 @@ from ydata_profiling import ProfileReport
 
 def data_profiling(df, df_name, output_file=None):
 
-    if ~os.path.exists(output_file):
+    if os.path.exists(output_file) == False:
         os.makedirs(output_file)
 
     title = "Profiling Report - " + df_name
