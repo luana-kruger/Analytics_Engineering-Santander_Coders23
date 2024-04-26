@@ -16,3 +16,6 @@ dados/
 
 # IDEs Configuration
 .idea
+
+# Cache python
+*.pyc
