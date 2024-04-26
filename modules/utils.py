@@ -1,9 +1,12 @@
-from ydata_profiling import ProfileReport
-import pandas as pd
 import re
-
+import os
+import pandas as pd
+from ydata_profiling import ProfileReport
 
 def data_profiling(df, df_name, output_file=None):
+
+    if ~os.path.exists(output_file):
+        os.makedirs(output_file)
 
     title = "Profiling Report - " + df_name
     filename = output_file + df_name + "_report.html"
@@ -113,3 +116,28 @@ def change_t_for_1(texto):
     texto_substituido = ''.join(['1' if char.lower() == 't' else '0' for char in texto])
     
     return texto_substituido
+
+def check_missing(df):
+    res_missing = df.isna().sum()
+    # res_missing = (res_missing/len(df))*100
+    return res_missing[res_missing != 0]
+
+def verificar_datas(df):
+
+    ano_atual = pd.Timestamp.now().year
+
+    # # Converter a coluna 'date' para o tipo datetime
+    # df['date'] = pd.to_datetime(df['date'], errors='coerce')
+
+    # Verificar as condições
+    condicao_dia = (df['date'].dt.day >= 1) & (df['date'].dt.day <= 31) # dias num intervalo de 1 a 31
+    condicao_mes = (df['date'].dt.month >= 1) & (df['date'].dt.month <= 12) # meses num intervalo de 1 a 12
+    condicao_ano = (df['date'].dt.year >= 1900) & (df['date'].dt.year <= ano_atual) # dias num intervalo de 1900 ao ano corrente
+
+    # Aplicar as condições ao DataFrame
+    df_filtrado = df[condicao_dia & condicao_mes & condicao_ano]
+
+    # Verificar se há valores fora do intervalo
+    valores_fora_intervalo = df[~(condicao_dia & condicao_mes & condicao_ano)]
+
+    return df_filtrado, valores_fora_intervalo
