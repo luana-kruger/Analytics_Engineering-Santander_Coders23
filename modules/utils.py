@@ -1,9 +1,12 @@
-from ydata_profiling import ProfileReport
-import pandas as pd
 import re
-
+import os
+import pandas as pd
+from ydata_profiling import ProfileReport
 
 def data_profiling(df, df_name, output_file=None):
+
+    if ~os.path.exists(output_file):
+        os.makedirs(output_file)
 
     title = "Profiling Report - " + df_name
     filename = output_file + df_name + "_report.html"
