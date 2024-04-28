@@ -1,0 +1,63 @@
+
+version: 2
+
+models:
+  - name: number_of_reviews_agg_year_month_gold
+    database: datalake_dbt
+    schema: gold
+    description: ""
+    columns:
+      - name: listing_id
+        description: "ID of the listing"
+        data_type: bigint
+
+      - name: price
+        description: ""
+        data_type: float
+
+      - name: number_of_reviews_total
+        description: ""
+        data_type: int
+
+      - name: number_of_reviews_l30d
+        description: ""
+        data_type: int
+
+      - name: number_of_reviews_month
+        description: ""
+        data_type: int
+
+      - name: year_month
+        description: ""
+        data_type: text
+
+      - name: month
+        data_type: int
+
+      - name: year
+        data_type: int
+
+      - name: last_day_of_month
+        data_type: date
+
+  - name: avg_price_listings_agg_year
+    database: datalake_dbt
+    schema: gold
+    description: ""
+    columns:
+      - name: listing_id
+        description: "ID of the listing"
+        data_type: bigint
+
+      - name: year
+        description: ""
+        data_type: int
+
+      - name: avg_price
+        data_type: float
+
+      - name: min_price
+        data_type: float
+
+      - name: max_price
+        data_type: float

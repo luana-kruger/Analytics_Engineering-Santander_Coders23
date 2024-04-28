@@ -1,0 +1,257 @@
+version: 2
+
+sources:
+  - name: listings_bronze
+    database: datalake_dbt
+    schema: bronze
+    tables:
+      - name: listings
+        description: "preencher"
+        columns:
+          - name: id
+            description: "Unique identifier for the listing"
+            tests:
+              - unique
+              - not null
+          - name: listing_url
+            description: "URL of the listing"
+          - name: scrape_id
+            description: "Identifier for the scrape"
+          - name: last_scraped
+            description: "Date when the listing was last scraped"
+
+          - name: source
+            description: "Source of the listing data"
+          - name: name
+            description: "Name of the listing"
+          - name: description
+            description: "Description of the listing"
+          - name: neighborhood_overview
+            description: "Neighborhood overview of the listing"
+          - name: picture_url
+            description: "URL of the listing picture"
+          - name: host_id
+            description: "ID of the host"
+          - name: host_url
+            description: "URL of the host"
+          - name: host_name
+            description: "Name of the host"
+          - name: host_since
+            description: "Date when the host joined"
+
+          - name: host_location
+            description: "Location of the host"
+          - name: host_about
+            description: "About the host"
+          - name: host_response_time
+            description: "Response time of the host"
+          - name: host_response_rate
+            description: "Response rate of the host"
+          - name: host_acceptance_rate
+            description: "Acceptance rate of the host"
+          - name: host_is_superhost
+            description: "Whether the host is a superhost"
+
+          - name: host_thumbnail_url
+            description: "URL of the host's thumbnail"
+          - name: host_picture_url
+            description: "URL of the host's picture"
+          - name: host_neighbourhood
+            description: "Neighbourhood of the host"
+          - name: host_listings_count
+            description: "Number of listings by the host"
+
+          - name: host_total_listings_count
+            description: "Total number of listings by the host"
+
+          - name: host_verifications
+            description: "Host verifications"
+          - name: host_has_profile_pic
+            description: "Whether the host has a profile picture"
+
+          - name: host_identity_verified
+            description: "Whether the host's identity is verified"
+
+          - name: neighbourhood
+            description: "Neighbourhood of the listing"
+          - name: neighbourhood_cleansed
+            description: "Cleansed neighbourhood of the listing"
+          - name: neighbourhood_group_cleansed
+            description: "Cleansed neighbourhood group of the listing"
+          - name: latitude
+            description: "Latitude of the listing"
+
+          - name: longitude
+            description: "Longitude of the listing"
+
+          - name: property_type
+            description: "Type of property"
+          - name: room_type
+            description: "Type of room"
+          - name: accommodates
+            description: "Number of guests the listing accommodates"
+
+          - name: bathrooms
+            description: "Number of bathrooms"
+
+          - name: bathrooms_text
+            description: "Text representation of the number of bathrooms"
+          - name: bedrooms
+            description: "Number of bedrooms"
+
+          - name: beds
+            description: "Number of beds"
+
+          - name: amenities
+            description: "Amenities of the listing"
+          - name: price
+            description: "Price of the listing"
+
+          - name: minimum_nights
+            description: "Minimum number of nights required for booking"
+
+          - name: maximum_nights
+            description: "Maximum number of nights allowed for booking"
+
+          - name: minimum_minimum_nights
+            description: "Minimum number of minimum nights required for booking"
+
+          - name: maximum_minimum_nights
+            description: "Maximum number of minimum nights required for booking"
+
+          - name: minimum_maximum_nights
+            description: "Minimum number of maximum nights allowed for booking"
+
+          - name: maximum_maximum_nights
+            description: "Maximum number of maximum nights allowed for booking"
+
+          - name: minimum_nights_avg_ntm
+            description: "Minimum average number of nights for booking"
+
+          - name: maximum_nights_avg_ntm
+            description: "Maximum average number of nights for booking"
+
+          - name: calendar_updated
+            description: "Date when the calendar was last updated"
+
+          - name: has_availability
+            description: "Availability status"
+
+          - name: availability_30
+            description: "Availability in the next 30 days"
+
+          - name: availability_60
+            description: "Availability in the next 60 days"
+
+          - name: availability_90
+            description: "Availability in the next 90 days"
+
+          - name: availability_365
+            description: "Availability in the next 365 days"
+
+          - name: calendar_last_scraped
+            description: "Date when the calendar was last scraped"
+
+          - name: number_of_reviews
+            description: "Total number of reviews"
+
+          - name: number_of_reviews_ltm
+            description: "Number of reviews in the last twelve months"
+
+          - name: number_of_reviews_l30d
+            description: "Number of reviews in the last 30 days"
+
+          - name: first_review
+            description: "Date of the first review"
+
+          - name: last_review
+            description: "Date of the last review"
+
+          - name: review_scores_rating
+            description: "Overall rating score"
+
+          - name: review_scores_accuracy
+            description: "Accuracy rating score"
+
+          - name: review_scores_cleanliness
+            description: "Cleanliness rating score"
+
+          - name: review_scores_checkin
+            description: "Check-in rating score"
+
+          - name: review_scores_communication
+            description: "Communication rating score"
+
+          - name: review_scores_location
+            description: "Location rating score"
+
+          - name: review_scores_value
+            description: "Value rating score"
+
+          - name: license
+            description: "License information"
+          - name: instant_bookable
+            description: "Whether instant booking is available"
+
+          - name: calculated_host_listings_count
+            description: "Count of host's listings"
+
+          - name: calculated_host_listings_count_entire_homes
+            description: "Count of host's entire home listings"
+
+          - name: calculated_host_listings_count_private_rooms
+            description: "Count of host's private room listings"
+
+          - name: calculated_host_listings_count_shared_rooms
+            description: "Count of host's shared room listings"
+
+          - name: reviews_per_month
+            description: "Number of reviews per month"
+
+  - name: calendar_bronze
+    database: datalake_dbt
+    schema: bronze
+    tables:
+      - name: calendar
+        description: "Model for the reviews table"
+        columns:
+          - name: listing_id
+            description: "ID of the listing"
+
+          - name: date
+            description: "Date of the calendar entry"
+
+          - name: available
+            description: "Availability status"
+
+          - name: price
+            description: "Price of the listing"
+
+          - name: adjusted_price
+            description: "Adjusted price of the listing"
+
+          - name: minimum_nights
+            description: "Minimum number of nights required for booking"
+
+          - name: maximum_nights
+            description: "Maximum number of nights allowed for booking"
+
+  - name: reviews_bronze
+    database: datalake_dbt
+    schema: bronze
+    tables:
+      - name: reviews
+        description: "preencher"
+        columns:
+          - name: listing_id
+            description: "ID of the listing"
+          - name: id
+            description: "ID of the review"
+          - name: date
+            description: "Date when the review was made"
+          - name: reviewer_id
+            description: "ID of the reviewer"
+          - name: reviewer_name
+            description: "Name of the reviewer"
+          - name: comments
+            description: "Comments made in the review"

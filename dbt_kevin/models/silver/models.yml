@@ -1,0 +1,242 @@
+
+version: 2
+
+models:
+  - name: listings_silver
+    database: datalake_dbt
+    schema: silver
+    description: ""
+    columns:
+      - name: id
+        description: "identifier for the listing"
+        data_type: bigint
+        tests:
+          - unique
+          - not null
+      - name: listing_url
+        description: "URL of the listing"
+      - name: scrape_id
+        description: "Identifier for the scrape"
+      - name: last_scraped
+        description: "Date when the listing was last scraped"
+        data_type: date
+      - name: source
+        description: "Source of the listing data"
+      - name: neighborhood_overview
+        description: "Neighborhood overview of the listing"
+      - name: picture_url
+        description: "URL of the listing picture"
+      - name: host_id
+        description: "ID of the host"
+      - name: host_url
+        description: "URL of the host"
+      - name: host_name
+        description: "Name of the host"
+      - name: host_since
+        description: "Date when the host joined"
+        data_type: date
+      - name: host_location
+        description: "Location of the host"
+      - name: host_about
+        description: "About the host"
+      - name: host_response_time
+        description: "Response time of the host"
+      - name: host_response_rate
+        description: "Response rate of the host"
+      - name: host_acceptance_rate
+        description: "Acceptance rate of the host"
+      - name: host_is_superhost
+        description: "Whether the host is a superhost"
+        data_type: int
+      - name: host_thumbnail_url
+        description: "URL of the host's thumbnail"
+      - name: host_picture_url
+        description: "URL of the host's picture"
+      - name: host_neighbourhood
+        description: "Neighbourhood of the host"
+      - name: host_listings_count
+        description: "Number of listings by the host"
+        data_type: float
+      - name: host_total_listings_count
+        description: "Total number of listings by the host"
+        data_type: float
+      - name: host_verifications
+        description: "Host verifications"
+      - name: host_has_profile_pic
+        description: "Whether the host has a profile picture"
+        data_type: int
+      - name: host_identity_verified
+        description: "Whether the host's identity is verified"
+        data_type: int
+      - name: neighbourhood
+        description: "Neighbourhood of the listing"
+      - name: neighbourhood_cleansed
+        description: "Cleansed neighbourhood of the listing"
+      - name: latitude
+        description: "Latitude of the listing"
+        data_type: float
+      - name: longitude
+        description: "Longitude of the listing"
+        data_type: float
+      - name: property_type
+        description: "Type of property"
+      - name: room_type
+        description: "Type of room"
+      - name: accommodates
+        description: "Number of guests the listing accommodates"
+        data_type: int
+      - name: bathroom_quantity
+        description: "Numbers of bathrooms"
+        data_type: float
+      - name: bathroom_type
+        description: "Types of bathrooms"
+      - name: beds
+        description: "Number of beds"
+        data_type: int
+      - name: price
+        description: "Price"
+        data_type: float
+      - name: minimum_nights
+        description: "Minimum number of nights required for booking"
+        data_type: int
+      - name: maximum_nights
+        description: "Maximum number of nights allowed for booking"
+        data_type: int
+      - name: minimum_minimum_nights
+        description: "Minimum number of minimum nights required for booking"
+        data_type: int
+      - name: maximum_minimum_nights
+        description: "Maximum number of minimum nights required for booking"
+        data_type: int
+      - name: minimum_maximum_nights
+        description: "Minimum number of maximum nights allowed for booking"
+        data_type: int
+      - name: maximum_maximum_nights
+        description: "Maximum number of maximum nights allowed for booking"
+        data_type: int
+      - name: minimum_nights_avg_ntm
+        description: "Minimum average number of nights for booking"
+        data_type: float
+      - name: maximum_nights_avg_ntm
+        description: "Maximum average number of nights for booking"
+        data_type: float
+      - name: has_availability
+        description: "Availability status"
+        data_type: int
+      - name: availability_30
+        description: "Availability in the next 30 days"
+        data_type: int
+      - name: availability_60
+        description: "Availability in the next 60 days"
+        data_type: int
+      - name: availability_90
+        description: "Availability in the next 90 days"
+        data_type: int
+      - name: availability_365
+        description: "Availability in the next 365 days"
+        data_type: int
+      - name: calendar_last_scraped
+        description: "Date when the calendar was last scraped"
+        data_type: date
+      - name: number_of_reviews
+        description: "Total number of reviews"
+        data_type: int
+      - name: number_of_reviews_ltm
+        description: "Number of reviews in the last twelve months"
+        data_type: int
+      - name: number_of_reviews_l30d
+        description: "Number of reviews in the last 30 days"
+        data_type: int
+      - name: first_review
+        description: "Date of the first review"
+        data_type: date
+      - name: last_review
+        description: "Date of the last review"
+        data_type: date
+      - name: review_scores_rating
+        description: "Overall rating score"
+        data_type: float
+      - name: review_scores_accuracy
+        description: "Accuracy rating score"
+        data_type: float
+      - name: review_scores_cleanliness
+        description: "Cleanliness rating score"
+        data_type: float
+      - name: review_scores_checkin
+        description: "Check-in rating score"
+        data_type: float
+      - name: review_scores_communication
+        description: "Communication rating score"
+        data_type: float
+      - name: review_scores_location
+        description: "Location rating score"
+        data_type: float
+      - name: review_scores_value
+        description: "Value rating score"
+        data_type: float
+      - name: instant_bookable
+        description: "Whether instant booking is available"
+        data_type: int
+      - name: calculated_host_listings_count
+        description: "Count of host's listings"
+        data_type: int
+      - name: calculated_host_listings_count_entire_homes
+        description: "Count of host's entire home listings"
+        data_type: int
+      - name: calculated_host_listings_count_private_rooms
+        description: "Count of host's private room listings"
+        data_type: int
+      - name: calculated_host_listings_count_shared_rooms
+        description: "Count of host's shared room listings"
+        data_type: int
+      - name: reviews_per_month
+        description: "Number of reviews per month"
+        data_type: float
+
+  - name: reviews_silver
+    database: datalake_dbt
+    schema: silver
+    description: ""
+    columns:
+      - name: listing_id
+        description: "ID of the listing"
+        data_type: bigint
+      - name: id
+        description: "ID of the review"
+        data_type: bigint
+      - name: date
+        description: "Date when the review was made"
+        data_type: date
+      - name: reviewer_id
+        description: "ID of the reviewer"
+        data_type: bigint
+      - name: reviewer_name
+        description: "Name of the reviewer"
+        data_type: text
+      - name: comments
+        description: "Comments made in the review"
+        data_type: text
+
+  - name: calendar_silver
+    database: datalake_dbt
+    schema: silver
+    description: ""
+    columns:
+      - name: listing_id
+        description: "ID of the listing"
+        data_type: bigint
+      - name: date
+        description: "Date of the calendar entry"
+        data_type: date
+      - name: available
+        description: "Availability status"
+        data_type: int
+      - name: price
+        description: "Price of the listing"
+        data_type: float
+      - name: minimum_nights
+        description: "Minimum number of nights required for booking"
+        data_type: int
+      - name: maximum_nights
+        description: "Maximum number of nights allowed for booking"
+        data_type: int

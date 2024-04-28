@@ -1,0 +1,27 @@
+
+
+analytics_engineering:
+  target: dev # this is the default target
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: '123456'
+      port: 5432
+      dbname: datalake_dbt
+      schema: bronze
+      threads: 4
+      connect_timeout: 10 # default 10 seconds
+
+    prod:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: '123456'
+      port: 5432
+      dbname: datalake_dbt
+      schema: bronze
+      threads: 2
+      connect_timeout: 10 # default 10 seconds
+
