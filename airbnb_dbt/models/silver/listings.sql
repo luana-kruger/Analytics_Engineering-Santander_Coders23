@@ -1,0 +1,167 @@
+-- models/silver_listings.sql
+
+{{ config(schema="silver", alias="listings", order=1) }}
+
+WITH source_bronze AS (
+    SELECT *
+    FROM {{ source('bronze', 'listings') }}
+),
+
+-- filled_columns AS (
+--     SELECT
+--         *,
+--         COALESCE(neighborhood_overview, 'no_info') AS neighborhood_overvie,
+--         COALESCE(host_name, 'no_info') AS host_nam,
+--         COALESCE(host_location, 'no_info') AS host_locatio,
+--         COALESCE(host_about, 'no_info') AS host_abou,
+--         COALESCE(host_response_time, 'no_info') AS host_response_tim,
+--         COALESCE(host_thumbnail_url, 'no_info') AS host_thumbnail_ur,
+--         COALESCE(host_picture_url, 'no_info') AS host_picture_ur,
+--         COALESCE(host_neighbourhood, 'no_info') AS host_neighbourhoo,
+--         COALESCE(host_verifications, 'no_info') AS host_verification,
+--         COALESCE(neighbourhood, 'Rio de Janeiro') AS neighbourhoo,
+--         COALESCE(beds, 1) AS bed,
+--         COALESCE(host_listings_count, 1) AS host_listings_coun,
+--         COALESCE(host_total_listings_count, 1) AS host_total_listings_coun,
+--         COALESCE(has_availability, 't') AS has_availability,
+--         COALESCE(TO_DATE(host_since, 'DD-MM-YYYY'), CURRENT_DATE) AS host_sinc,
+--         COALESCE(host_response_rate, '0%') AS host_response_rat,
+--         COALESCE(host_acceptance_rate, '0%') AS host_acceptance_rat,
+--         -- Incluir 'bathrooms_text' aqui, pois será necessário para a próxima CTE
+--         COALESCE(bathrooms_text, '0 bath') AS bathrooms_text_filled
+--     FROM source_bronze
+-- ),
+
+-- clean_text AS (
+--     SELECT
+--         filled_columns.id,
+--         filled_columns.listing_url,
+--         filled_columns.scrape_id,
+--         filled_columns.last_scraped,
+--         filled_columns.source,
+--         filled_columns.name,
+--         filled_columns.description,
+--         REGEXP_REPLACE(filled_columns.neighborhood_overvie, '[^\w\s]', '', 'g') AS neighborhood_overview_clean,
+--         filled_columns.picture_url,
+--         host_id,
+--         host_url,
+--         filled_columns.host_nam,
+--         filled_columns.host_since,
+--         filled_columns.host_locatio,
+--         REGEXP_REPLACE(filled_columns.host_abou, '[^\w\s]', '', 'g') AS host_about_clean,
+--         filled_columns.host_response_tim,
+--         filled_columns.host_response_rat,
+--         filled_columns.host_acceptance_rat,
+--         host_is_superhost,
+--         filled_columns.host_thumbnail_ur,
+--         filled_columns.host_picture_ur,
+--         filled_columns.host_neighbourhoo,
+--         filled_columns.host_listings_coun,
+--         filled_columns.host_total_listings_coun,
+--         filled_columns.host_verification,
+--         host_has_profile_pic,
+--         host_identity_verified,
+--         filled_columns.neighbourhoo,
+--         neighbourhood_cleansed,
+--         neighbourhood_group_cleansed,
+--         latitude,
+--         longitude,
+--         property_type,
+--         room_type,
+--         accommodates,
+--         bathrooms,
+--         bathrooms_text_filled, -- Coluna incluída para usar na próxima CTE
+--         bedrooms,
+--         filled_columns.bed,
+--         amenities,
+--         price,
+--         minimum_nights,
+--         maximum_nights,
+--         minimum_minimum_nights,
+--         maximum_minimum_nights,
+--         minimum_maximum_nights,
+--         maximum_maximum_nights,
+--         minimum_nights_avg_ntm,
+--         maximum_nights_avg_ntm,
+--         calendar_updated,
+--         has_availability,
+--         availability_30,
+--         availability_60,
+--         availability_90,
+--         availability_365,
+--         calendar_last_scraped,
+--         number_of_reviews,
+--         number_of_reviews_ltm,
+--         number_of_reviews_l30d,
+--         first_review,
+--         last_review,
+--         review_scores_rating,
+--         review_scores_accuracy,
+--         review_scores_cleanliness,
+--         review_scores_checkin,
+--         review_scores_communication,
+--         review_scores_location,
+--         review_scores_value,
+--         license,
+--         instant_bookable,
+--         calculated_host_listings_count,
+--         calculated_host_listings_count_entire_homes,
+--         calculated_host_listings_count_private_rooms,
+--         calculated_host_listings_count_shared_rooms,
+--         reviews_per_month
+--     FROM filled_columns
+-- ),
+
+-- bool_transform AS (
+--     SELECT
+--         *,
+--         CASE WHEN host_is_superhost = 't' THEN 1 ELSE 0 END AS host_is_superhost_numeric,
+--         CASE WHEN host_has_profile_pic = 't' THEN 1 ELSE 0 END AS host_has_profile_pic_numeric,
+--         CASE WHEN host_identity_verified = 't' THEN 1 ELSE 0 END AS host_identity_verified_numeric,
+--         CASE WHEN instant_bookable = 't' THEN 1 ELSE 0 END AS instant_bookable_numeric
+--     FROM clean_text
+-- ),
+
+-- bathroom_details AS (
+--     SELECT
+--         *,
+--         REGEXP_REPLACE(bathrooms_text_filled, '(\d+\.?\d*)', '', 'g') AS bathroom_type_raw,
+--         REGEXP_REPLACE(bathroom_type_raw, 's?$', '', 'g') AS bathroom_type,
+--         TRIM(bathroom_type) AS bathroom_type_final,
+--         COALESCE(NULLIF(SUBSTRING(bathrooms_text_filled FROM '(\d+\.?\d*)'), ''), '0')::float AS bathroom_quantity
+--     FROM bool_transform
+-- ),
+
+-- price_adjustment AS (
+--     SELECT
+--         *,
+--         COALESCE(price, mean_prices.price) AS adjusted_price
+--     FROM bathroom_details
+--     LEFT JOIN (
+--         SELECT beds, bathroom_quantity, AVG(price::numeric) AS price
+--         FROM bathroom_details
+--         GROUP BY beds, bathroom_quantity
+--     ) mean_prices ON bathroom_details.beds = mean_prices.beds AND bathroom_details.bathroom_quantity = mean_prices.bathroom_quantity
+-- ),
+
+-- final_select AS (
+--     SELECT
+--         id,
+--         host_id,
+--         adjusted_price,
+--         neighborhood_overview_clean,
+--         host_about_clean,
+--         host_is_superhost_numeric,
+--         host_has_profile_pic_numeric,
+--         host_identity_verified_numeric,
+--         instant_bookable_numeric,
+--         bathroom_type_final,
+--         bathroom_quantity,
+--         host_since::date AS host_since
+--         -- Inclua outras transformações de colunas conforme necessário
+--     FROM price_adjustment
+-- )
+
+-- SELECT * FROM final_select
+
+

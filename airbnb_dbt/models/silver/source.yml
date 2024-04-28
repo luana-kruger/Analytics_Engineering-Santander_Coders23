@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: 'Camada bronze'
+    database: datalake
+    schema: bronze
+    tables:
+      - name: listings
+        description: 'Dados do bronze do listings'
+      - name: calendar
+        description: 'Dados do bronze do calendar'
+      - name: reviews
+        description: 'Dados do bronze do reviews'
