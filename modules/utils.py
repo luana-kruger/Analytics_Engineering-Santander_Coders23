@@ -1,7 +1,10 @@
 import re
 import os
+from datetime import datetime
 import pandas as pd
 from ydata_profiling import ProfileReport
+import great_expectations as gx
+
 
 def data_profiling(df, df_name, output_file=None):
 
@@ -138,3 +141,72 @@ def check_date(df, col):
     valores_fora_intervalo = df[~(condicao_dia & condicao_mes & condicao_ano)]
 
     return df_filtrado, valores_fora_intervalo
+
+'''
+##########################################################################
+
+OBS: a proxima parte é focada apenas para funções do Great Expectations
+
+##########################################################################
+'''
+
+def clean_path(path:str):
+    '''
+    '''
+    print(f"Listando os arquivos do diretório {path}")
+    files_list = [os.path.join(path,file) for file in os.listdir(path=path)]
+    
+    print(f"Será apagados {len(files_list)} arquivos.")
+    for file_path in files_list:
+        print(f"ERRO: O arquivo {file_path} está sendo apagado.")
+        os.remove(path=file_path)
+        print(f"ERRO: Arquivo {file_path} apagado com sucesso!!")
+
+
+def verifica_colunas_datetime(gx_df, colunas_datetime:list):
+    for coluna in colunas_datetime:
+        condicao_tipo = gx_df.expect_column_values_to_be_in_type_list(coluna, ['datetime64[ns]']).success
+        condicao_data_valida = gx_df.expect_column_values_to_be_between(coluna, datetime(2008,8,1), datetime.now()).success
+        if condicao_tipo and condicao_data_valida:
+            print(f"A coluna '{coluna}' é válida. (Tipo e Valor)")
+        else:
+            if not condicao_tipo:
+                print(f"ERRO: A coluna '{coluna}' não está no formato correto. Esperado: datetime.")
+            if not condicao_data_valida:
+                print(f"ERRO: A coluna '{coluna}' tem valores fora do intervalo permitido.")
+
+def verificar_colunas_categoricas(gx_df, coluna_a_ser_analisada, valores_esperados):
+    result = gx_df.expect_column_values_to_be_in_set(coluna_a_ser_analisada, valores_esperados)
+    if result.success:
+        print(f"Os valores da coluna {coluna_a_ser_analisada} contêm apenas valores esperados. ({valores_esperados})")
+    else:
+        print(f"ERRO: Os valores da coluna {coluna_a_ser_analisada} contêm valores inesperados. ({result.result['unexpected_list']})")
+
+
+def verificar_colunas_booleanas(gx_df, list_of_columns:list):
+    for column in list_of_columns:
+        condicao_tipo = gx_df.expect_column_values_to_be_in_type_list(column, ['int', 'int64']).success
+        condicao_valor_valido = gx_df.expect_column_values_to_be_in_set(column, [0, 1]).success
+        if condicao_tipo and condicao_valor_valido:
+            print(f"A coluna '{column}' é válida. (Tipo e Valor)")
+        else:
+            if not condicao_tipo:
+                print(f"ERRO: A coluna '{column}' não está no tipo correto. Esperado: int.")
+            if not condicao_valor_valido:
+                print(f"ERRO: A coluna '{column}' tem valores inválidos.")                
+
+def verificar_colunas_com_none(gx_df, list_of_columns:list):
+    for column in list_of_columns:
+        condicao_valores_nulos = gx_df.expect_column_values_to_not_be_null(column).success
+        if condicao_valores_nulos:
+            print(f"A coluna '{column}' é válida. (Não tem valores nulos)")
+        else:
+            print(f"ERRO: A coluna '{column}' contém valores nulos.")
+
+def verificar_valores_min_max(gx_df, list_of_columns:list, min, max):
+    for column in list_of_columns:
+        condicao_valores = gx_df.expect_column_values_to_be_between(column, min_value=min, max_value=max).success
+        if condicao_valores:
+            print(f"A coluna '{column}' está entre os valores de {min} e {max}.")
+        else:
+            print(f"ERRO: A coluna '{column}' não está entre os valores de {min} e {max}.")
