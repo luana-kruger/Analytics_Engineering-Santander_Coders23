@@ -1,11 +1,11 @@
 {{config(schema=generate_schema_name("gold"),alias="avg_price_listings_agg_year",order=8)}}
 
 with listings_silver as (
-    select *  from {{ source('Silver', 'listings') }}
+    select *  from {{ source('silver', 'listings') }}
 )
 ,
 calendar_silver as (
-    select *  from {{ source('Silver', 'calendar') }}
+    select *  from {{ source('silver', 'calendar') }}
 )
 
 SELECT listings.id as listing_id
