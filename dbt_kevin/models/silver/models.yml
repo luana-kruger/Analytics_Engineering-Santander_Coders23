@@ -11,192 +11,482 @@ models:
         description: "identifier for the listing"
         data_type: bigint
         tests:
-          - unique
-          - not null
+          - dbt_expectations.expect_column_values_to_be_unique
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: listing_url
         description: "URL of the listing"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: scrape_id
         description: "Identifier for the scrape"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: last_scraped
         description: "Date when the listing was last scraped"
         data_type: date
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+
       - name: source
         description: "Source of the listing data"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: neighborhood_overview
         description: "Neighborhood overview of the listing"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: picture_url
         description: "URL of the listing picture"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_id
         description: "ID of the host"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
+
       - name: host_url
         description: "URL of the host"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_name
         description: "Name of the host"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_since
         description: "Date when the host joined"
         data_type: date
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+
       - name: host_location
         description: "Location of the host"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_about
         description: "About the host"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_response_time
         description: "Response time of the host"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_response_rate
         description: "Response rate of the host"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_acceptance_rate
         description: "Acceptance rate of the host"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
       - name: host_is_superhost
         description: "Whether the host is a superhost"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                max_value: 1
+
       - name: host_thumbnail_url
         description: "URL of the host's thumbnail"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_picture_url
         description: "URL of the host's picture"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_neighbourhood
         description: "Neighbourhood of the host"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_listings_count
         description: "Number of listings by the host"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: host_total_listings_count
         description: "Total number of listings by the host"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+
       - name: host_verifications
         description: "Host verifications"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: host_has_profile_pic
         description: "Whether the host has a profile picture"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                max_value: 1
+
       - name: host_identity_verified
         description: "Whether the host's identity is verified"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                max_value: 1
+
       - name: neighbourhood
         description: "Neighbourhood of the listing"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: neighbourhood_cleansed
         description: "Cleansed neighbourhood of the listing"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: latitude
         description: "Latitude of the listing"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: longitude
         description: "Longitude of the listing"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: property_type
         description: "Type of property"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: room_type
         description: "Type of room"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: accommodates
         description: "Number of guests the listing accommodates"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+
       - name: bathroom_quantity
         description: "Numbers of bathrooms"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+
       - name: bathroom_type
         description: "Types of bathrooms"
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: beds
         description: "Number of beds"
         data_type: int
         tests:
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
-              max_value: 5000
 
       - name: price
         description: "Price"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: minimum_nights
         description: "Minimum number of nights required for booking"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: maximum_nights
         description: "Maximum number of nights allowed for booking"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: minimum_minimum_nights
         description: "Minimum number of minimum nights required for booking"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: maximum_minimum_nights
         description: "Maximum number of minimum nights required for booking"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: minimum_maximum_nights
         description: "Minimum number of maximum nights allowed for booking"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: maximum_maximum_nights
         description: "Maximum number of maximum nights allowed for booking"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: minimum_nights_avg_ntm
         description: "Minimum average number of nights for booking"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: maximum_nights_avg_ntm
         description: "Maximum average number of nights for booking"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: has_availability
         description: "Availability status"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
       - name: availability_30
         description: "Availability in the next 30 days"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
       - name: availability_60
         description: "Availability in the next 60 days"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
       - name: availability_90
         description: "Availability in the next 90 days"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
       - name: availability_365
         description: "Availability in the next 365 days"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
       - name: calendar_last_scraped
         description: "Date when the calendar was last scraped"
         data_type: date
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+
       - name: number_of_reviews
         description: "Total number of reviews"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+
       - name: number_of_reviews_ltm
         description: "Number of reviews in the last twelve months"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: number_of_reviews_l30d
         description: "Number of reviews in the last 30 days"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: first_review
         description: "Date of the first review"
         data_type: date
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+
       - name: last_review
         description: "Date of the last review"
         data_type: date
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+
       - name: review_scores_rating
         description: "Overall rating score"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: review_scores_accuracy
         description: "Accuracy rating score"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: review_scores_cleanliness
         description: "Cleanliness rating score"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: review_scores_checkin
         description: "Check-in rating score"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: review_scores_communication
         description: "Communication rating score"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: review_scores_location
         description: "Location rating score"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: review_scores_value
         description: "Value rating score"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: instant_bookable
         description: "Whether instant booking is available"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
       - name: calculated_host_listings_count
         description: "Count of host's listings"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
       - name: calculated_host_listings_count_entire_homes
         description: "Count of host's entire home listings"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
       - name: calculated_host_listings_count_private_rooms
         description: "Count of host's private room listings"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
       - name: calculated_host_listings_count_shared_rooms
         description: "Count of host's shared room listings"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
       - name: reviews_per_month
         description: "Number of reviews per month"
         data_type: float
+        tests:
+          - dbt_expectations.expect_column_values_to_not_be_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
 
   - name: reviews_silver
     database: datalake_dbt
