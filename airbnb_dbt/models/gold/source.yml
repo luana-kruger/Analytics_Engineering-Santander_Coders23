@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: Silver
+    description: 'Camada silver'
+    database: datalake
+    schema: silver
+    tables:
+      - name: listings
+        description: 'Dados do silver do listings'
+      - name: calendar
+        description: 'Dados do silver do calendar'
+      - name: reviews
+        description: 'Dados do silver do reviews'

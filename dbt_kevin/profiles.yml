@@ -1,5 +1,3 @@
-
-
 analytics_engineering:
   target: dev # this is the default target
   outputs:
