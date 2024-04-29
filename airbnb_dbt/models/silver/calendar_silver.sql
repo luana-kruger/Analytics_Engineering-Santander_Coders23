@@ -16,8 +16,8 @@ clean_price AS (
         CAST(REGEXP_REPLACE(price, '[$,]', '', 'g') AS FLOAT) AS price,
         -- Coluna 'adjusted_price' pode precisar de limpeza ou cálculo semelhante
         adjusted_price,
-        minimum_nights::int AS minimum_nights,
-        maximum_nights::int AS maximum_nights
+        COALESCE(minimum_nights, (SELECT MIN(minimum_nights) FROM source_bronze)) AS minimum_nights,
+        COALESCE(maximum_nights, (SELECT MAX(maximum_nights) FROM source_bronze)) AS maximum_nights
     FROM source_bronze
 ),
 
