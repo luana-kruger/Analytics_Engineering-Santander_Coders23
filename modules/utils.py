@@ -210,3 +210,23 @@ def verificar_valores_min_max(gx_df, list_of_columns:list, min, max):
             print(f"A coluna '{column}' está entre os valores de {min} e {max}.")
         else:
             print(f"ERRO: A coluna '{column}' não está entre os valores de {min} e {max}.")
+
+def verificar_colunas_id(gx_df, list_of_id_columns:list):
+
+    correct_types = ['int', 'int64']
+    for column in list_of_id_columns:
+        condicao_tipo = gx_df.expect_column_values_to_be_in_type_list(column, correct_types).success
+        condicao_valores_nulos = gx_df.expect_column_values_to_not_be_null(column).success
+        valor_max_bigint = 9223372036854775807
+        condicao_valores = gx_df.expect_column_values_to_be_between(column, min_value=0, max_value=valor_max_bigint).success
+
+        if condicao_tipo and condicao_valores_nulos and condicao_valores:
+            print(f"A coluna '{column}' é válida. (Tipo e Valor)")
+        else:
+            if not condicao_tipo:
+                print(f"ERRO: A coluna '{column}' não está no tipo correto. Esperado: ",' ou '.join(correct_types))
+            if not condicao_valores_nulos:
+                print(f"ERRO: A coluna '{column}' possui valore(s) nulos.")
+            if not condicao_valores:
+                print(f"ERRO: A coluna '{column}' possui valore(s) acima ou abaixo do range permitido {[0,valor_max_bigint]}.")
+                
