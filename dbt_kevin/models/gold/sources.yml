@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: listings_silver
+  - name: silver
     database: datalake_dbt
     schema: silver
     tables:
@@ -194,10 +194,6 @@ sources:
             description: "Number of reviews per month"
             data_type: float
 
-  - name: calendar_silver
-    database: datalake_dbt
-    schema: silver
-    tables:
       - name: calendar
         description: "Model for the reviews table"
         columns:
@@ -220,10 +216,6 @@ sources:
             description: "Maximum number of nights allowed for booking"
             data_type: int
 
-  - name: reviews_silver
-    database: datalake_dbt
-    schema: silver
-    tables:
       - name: reviews
         description: "preencher"
         columns:
@@ -245,3 +237,4 @@ sources:
           - name: comments
             description: "Comments made in the review"
             data_type: text
+

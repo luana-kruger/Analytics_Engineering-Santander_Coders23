@@ -61,3 +61,17 @@ models:
 
       - name: max_price
         data_type: float
+
+  - name: avg_price_by_property_agg
+    database: datalake_dbt
+    schema: gold
+    description: "médias de preços por propriedade e por ano."
+    columns:
+      - name: listing_id
+        description: "ID of the listing"
+        data_type: bigint
+
+      - name: avg_price
+        description: ""
+        data_type: float
+

@@ -1,4 +1,5 @@
 {{config(schema=generate_schema_name("bronze"),alias="calendar",order=3)}}
+
 with source_data as (
         select *  from {{ source('datalake_dbt', 'calendar') }}
     )

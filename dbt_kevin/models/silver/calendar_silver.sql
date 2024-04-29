@@ -1,6 +1,7 @@
 {{config(schema=generate_schema_name("silver"),alias="calendar",order=6)}}
+
 with source_calendar as (
-        select *  from {{ source('calendar_bronze', 'calendar') }}
+        select *  from {{ source('bronze', 'calendar') }}
     )
 
 select

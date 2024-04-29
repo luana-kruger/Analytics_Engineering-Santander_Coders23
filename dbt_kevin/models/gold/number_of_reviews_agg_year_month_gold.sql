@@ -1,11 +1,11 @@
 {{config(schema=generate_schema_name("gold"),alias="number_of_reviews_agg_year_month_gold",order=7)}}
 
 with listings_silver as (
-    select *  from {{ source('listings_silver', 'listings') }}
+    select *  from {{ source('silver', 'listings') }}
 )
 ,
 reviews_silver as (
-    select *  from {{ source('reviews_silver', 'reviews') }}
+    select *  from {{ source('silver', 'reviews') }}
 )
 
 

@@ -5,7 +5,7 @@ with bronze_data as (
         *
         --tratando a coluna bathrooms_text, fazendo replaces
         , regexp_replace(regexp_replace( lower(trim(bathrooms_text)), 'baths', 'bath'), 'half-bath', '0.5 bath') as bathrooms_text_lower
-    from {{ source('listings_bronze', 'listings') }}
+    from {{ source('bronze', 'listings') }}
 )
 select id,
     listing_url,

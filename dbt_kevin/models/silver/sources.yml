@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: listings_bronze
+  - name: bronze
     database: datalake_dbt
     schema: bronze
     tables:
@@ -208,10 +208,6 @@ sources:
           - name: reviews_per_month
             description: "Number of reviews per month"
 
-  - name: calendar_bronze
-    database: datalake_dbt
-    schema: bronze
-    tables:
       - name: calendar
         description: "Model for the reviews table"
         columns:
@@ -236,10 +232,6 @@ sources:
           - name: maximum_nights
             description: "Maximum number of nights allowed for booking"
 
-  - name: reviews_bronze
-    database: datalake_dbt
-    schema: bronze
-    tables:
       - name: reviews
         description: "preencher"
         columns:

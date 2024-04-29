@@ -1,7 +1,7 @@
 {{config(schema=generate_schema_name("silver"),alias="reviews",order=5)}}
 
 with source_reviews as (
-        select *  from {{ source('reviews_bronze', 'reviews') }}
+        select *  from {{ source('bronze', 'reviews') }}
     )
 
 select
