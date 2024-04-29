@@ -7,20 +7,37 @@ models:
     schema: silver  # Esquema onde a tabela será criada
     alias: calendar  # Nome da tabela no banco de dados
     description: "Tabela calendar no Schema Silver"
-    # columns:
-    #   - name: id
-    #     description: "Identificador único do registro"
-    #     tests:
-    #       - unique
-    #       - not_null
-    #   - name: num_of_delayed_payment
-    #     description: "Número de pagamentos atrasados"
-    #     tests:
-    #       - check_value_is_not_negative
-    #       - not_null
-    #       - dbt_expectations.expect_column_values_to_be_between:
-    #           min_value: 0
-    #           max_value: 5000
+    columns:
+      - name: price
+        description: "preço dos alugueis"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1000000
+      - name: date
+        description: "data dos alugueis"
+        tests:
+          - not_null        
+      - name: listing_id
+        description: "lista dos ids dos imoveis"
+        tests:
+          - not_null      
+      - name: available
+        description: "booleano se está avaliavel o imovel"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1      
+      - name: minimum_nights
+        description: "minimo de dias para hospedagem"
+        tests:
+          - not_null       
+      - name: maximum_nights
+        description: "maximo de dias para hospedagem"
+        tests:
+          - not_null             
 
 
   - name: reviews_silver  # Este é o nome do modelo no DBT
@@ -28,20 +45,14 @@ models:
     schema: silver  # Esquema onde a tabela será criada
     alias: reviews  # Nome da tabela no banco de dados
     description: "Tabela reviews no Schema Silver"
-    # columns:
-    #   - name: id
-    #     description: "Identificador único do registro"
-    #     tests:
-    #       - unique
-    #       - not_null
-    #   - name: num_of_delayed_payment
-    #     description: "Número de pagamentos atrasados"
-    #     tests:
-    #       - check_value_is_not_negative
-    #       - not_null
-    #       - dbt_expectations.expect_column_values_to_be_between:
-    #           min_value: 0
-    #           max_value: 5000
+    columns:
+      - name: reviewer_id
+        description: "Identificador único do registro"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1000000000
 
 
   - name: listings_silver  # Este é o nome do modelo no DBT
@@ -49,17 +60,4 @@ models:
     schema: silver  # Esquema onde a tabela será criada
     alias: listings  # Nome da tabela no banco de dados
     description: "Tabela listings no Schema Silver"
-    # columns:
-    #   - name: id
-    #     description: "Identificador único do registro"
-    #     tests:
-    #       - unique
-    #       - not_null
-    #   - name: num_of_delayed_payment
-    #     description: "Número de pagamentos atrasados"
-    #     tests:
-    #       - check_value_is_not_negative
-    #       - not_null
-    #       - dbt_expectations.expect_column_values_to_be_between:
-    #           min_value: 0
-    #           max_value: 5000
+
