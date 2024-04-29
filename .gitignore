@@ -12,10 +12,12 @@ venv.bak/
 
 # Data files
 data/
-dados/
 
 # IDEs Configuration
 .idea
 
 # Cache python
 *.pyc
+
+# Logs
+logs/dbt.log
