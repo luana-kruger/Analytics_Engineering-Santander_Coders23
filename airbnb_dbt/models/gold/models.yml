@@ -41,7 +41,7 @@ models:
         data_type: date
 
   - name: avg_price_listings_agg_year
-    database: database
+    database: datalake
     schema: gold
     description: ""
     columns:
@@ -60,4 +60,17 @@ models:
         data_type: float
 
       - name: max_price
+        data_type: float
+
+  - name: avg_per_period
+    database: datalake
+    schema: gold
+    description: "Média de preço por periodo do ano."
+    columns:
+      - name: periodo
+        description: ""
+        data_type: text
+
+      - name: media_de_preco
+        description: ""
         data_type: float
