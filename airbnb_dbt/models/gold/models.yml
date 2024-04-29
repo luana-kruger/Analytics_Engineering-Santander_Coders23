@@ -3,7 +3,7 @@ version: 2
 
 models:
   - name: number_of_reviews_agg_year_month_gold
-    database: datalake_dbt
+    database: datalake
     schema: gold
     description: ""
     columns:
@@ -41,7 +41,7 @@ models:
         data_type: date
 
   - name: avg_price_listings_agg_year
-    database: datalake_dbt
+    database: database
     schema: gold
     description: ""
     columns:
