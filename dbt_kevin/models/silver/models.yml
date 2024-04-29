@@ -93,6 +93,11 @@ models:
       - name: beds
         description: "Number of beds"
         data_type: int
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 5000
+
       - name: price
         description: "Price"
         data_type: float
